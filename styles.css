@@ -1,17 +1,49 @@
+/* Default Theme (Dark) */
 :root {
-    --bg-color: #050510;
     --card-bg: rgba(10, 15, 25, 0.85);
     --text-main: #00ff41;
     --text-muted: #008f11;
     --text-dim: #005f0b;
     --border-color: #00ff41;
     --border-dim: rgba(0, 255, 65, 0.3);
+    --input-bg: rgba(0, 25, 0, 0.5);
+    --btn-hover-bg: rgba(0, 255, 65, 0.15);
+
+    /* Global Background relies on CSS variable for smooth transitions between colors if image fails */
+    --global-bg-img: url('themes/dark/background.png');
+    --global-bg-color: #050510;
+
+    /* Grid colors for dark mode */
+    --grid-line: rgba(0, 255, 65, 0.1);
 
     /* Feedback Colors */
-    --status-default: #111;
+    --status-default: rgba(17, 17, 17, 0.5);
     --status-red: #ff003c;
     --status-orange: #ffb000;
     --status-green: #00ff41;
+}
+
+/* Light Theme Overrides */
+html.light-theme {
+    --card-bg: rgba(240, 245, 250, 0.9);
+    --text-main: #003704;
+    --text-muted: #005106;
+    --text-dim: #001f02;
+    --border-color: #008f11;
+    --border-dim: rgba(0, 143, 17, 0.4);
+    --input-bg: rgba(255, 255, 255, 0.7);
+    --btn-hover-bg: rgba(0, 143, 17, 0.15);
+
+    --global-bg-img: url('themes/light/background.png');
+    --global-bg-color: #e0e8e2;
+
+    /* Grid colors for light mode */
+    --grid-line: rgba(0, 143, 17, 0.15);
+
+    --status-default: rgba(200, 200, 200, 0.5);
+    --status-red: #cc0030;
+    --status-orange: #d19000;
+    --status-green: #008f11;
 }
 
 * {
@@ -22,7 +54,11 @@
 
 body {
     font-family: 'Share Tech Mono', monospace;
-    background-color: var(--bg-color);
+    background-color: var(--global-bg-color);
+    background-image: var(--global-bg-img);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     color: var(--text-main);
     min-height: 100vh;
     display: flex;
@@ -30,8 +66,53 @@ body {
     align-items: center;
     overflow: hidden;
     position: relative;
+    /* Smooth transitions for all theme-dependent properties */
+    transition: background-image 0.5s ease-in-out, background-color 0.5s ease, color 0.5s ease;
 }
 
+/* Theme Toggle Button */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 0 10px var(--border-dim);
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    box-shadow: 0 0 15px var(--border-color);
+    transform: scale(1.1);
+}
+
+/* Icon visibility based on theme */
+.light-icon {
+    display: none;
+}
+
+.dark-icon {
+    display: block;
+}
+
+html.light-theme .light-icon {
+    display: block;
+}
+
+html.light-theme .dark-icon {
+    display: none;
+}
+
+/* Grid overlay */
 .grid-background {
     position: absolute;
     width: 200%;
@@ -39,12 +120,13 @@ body {
     top: -50%;
     left: -50%;
     background-image:
-        linear-gradient(rgba(0, 255, 65, 0.1) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 65, 0.1) 1px, transparent 1px);
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
     background-size: 30px 30px;
     transform: perspective(500px) rotateX(60deg);
     animation: grid-move 20s linear infinite;
     z-index: 0;
+    pointer-events: none;
 }
 
 .scanlines {
@@ -53,7 +135,7 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.2));
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.15) 50%, rgba(0, 0, 0, 0.15));
     background-size: 100% 4px;
     z-index: 100;
     pointer-events: none;
@@ -81,10 +163,11 @@ body {
 .card {
     background: var(--card-bg);
     border: 2px solid var(--border-color);
-    box-shadow: 0 0 20px rgba(0, 255, 65, 0.2), inset 0 0 20px rgba(0, 255, 65, 0.1);
+    box-shadow: 0 0 20px var(--border-dim), inset 0 0 20px var(--border-dim);
     padding: 30px;
     position: relative;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+    transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
 }
 
 .card::after {
@@ -97,6 +180,7 @@ body {
     border-left: 2px solid var(--border-color);
     border-bottom: 2px solid var(--border-color);
     background: transparent;
+    transition: border-color 0.5s ease;
 }
 
 /* Base View Toggling */
@@ -112,8 +196,8 @@ body {
 
 .title-section h1 {
     font-size: 2.2rem;
-    color: #fff;
-    text-shadow: 0 0 10px var(--text-main);
+    color: var(--text-main);
+    text-shadow: 0 0 10px var(--border-dim);
     letter-spacing: 2px;
 }
 
@@ -126,7 +210,7 @@ body {
     width: 100%;
     margin-bottom: 15px;
     padding: 20px;
-    background: rgba(0, 255, 65, 0.05);
+    background: transparent;
     border: 1px solid var(--border-dim);
     color: var(--text-main);
     text-align: left;
@@ -147,8 +231,8 @@ body {
 }
 
 .mode-btn:hover {
-    background: rgba(0, 255, 65, 0.15);
-    border-color: var(--text-main);
+    background: var(--btn-hover-bg);
+    border-color: var(--border-color);
     padding-left: 30px;
 }
 
@@ -181,7 +265,7 @@ body {
 .level-badge {
     font-size: 1.8rem;
     font-weight: bold;
-    text-shadow: 0 0 10px var(--text-main);
+    text-shadow: 0 0 10px var(--border-dim);
 }
 
 .max-level {
@@ -209,6 +293,7 @@ body {
 .stat-box .value {
     font-size: 1.1rem;
     font-weight: bold;
+    color: var(--text-main);
 }
 
 .terminal-text {
@@ -224,9 +309,9 @@ body {
 
 .input-group input {
     width: 100%;
-    background: rgba(0, 25, 0, 0.5);
+    background: var(--input-bg);
     border: 2px solid var(--border-dim);
-    color: #fff;
+    color: var(--text-main);
     padding: 16px 20px;
     font-size: 1.5rem;
     font-family: 'Share Tech Mono', monospace;
@@ -238,7 +323,7 @@ body {
 
 .input-group input:focus {
     border-color: var(--border-color);
-    box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+    box-shadow: 0 0 15px var(--border-dim);
 }
 
 .input-group input::placeholder {
@@ -265,7 +350,7 @@ body {
     height: 32px;
     border-radius: 4px;
     background-color: var(--status-default);
-    border: 1px solid #333;
+    border: 1px solid var(--border-dim);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -275,7 +360,7 @@ body {
 .circle.red {
     background-color: transparent;
     border-color: var(--status-red);
-    box-shadow: 0 0 8px rgba(255, 0, 60, 0.4) inset;
+    box-shadow: 0 0 8px var(--status-red) inset;
 }
 
 .circle.red::after {
@@ -287,7 +372,7 @@ body {
 .circle.orange {
     background-color: transparent;
     border-color: var(--status-orange);
-    box-shadow: 0 0 8px rgba(255, 176, 0, 0.4) inset;
+    box-shadow: 0 0 8px var(--status-orange) inset;
 }
 
 .circle.orange::after {
@@ -299,7 +384,7 @@ body {
 .circle.green {
     background-color: var(--status-green);
     border-color: var(--status-green);
-    box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+    box-shadow: 0 0 15px var(--status-green);
 }
 
 .circle.green::after {
@@ -311,6 +396,10 @@ body {
     transform: rotate(45deg) translate(-1px, -2px);
 }
 
+html.light-theme .circle.green::after {
+    border-color: #fff;
+}
+
 .action-btn {
     background: var(--text-main);
     border: none;
@@ -319,7 +408,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #000;
+    color: var(--bg-color);
+    /* Changes based on theme background */
     cursor: pointer;
     clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
     transition: all 0.2s ease;
@@ -327,14 +417,15 @@ body {
 }
 
 .action-btn:hover {
-    background: #fff;
+    background: var(--text-muted);
+    color: #fff;
     transform: scale(1.05);
 }
 
 .success-message {
     margin-top: 25px;
     padding: 15px;
-    background: rgba(0, 255, 65, 0.1);
+    background: var(--btn-hover-bg);
     border-left: 4px solid var(--status-green);
     color: var(--status-green);
     font-weight: bold;
@@ -377,5 +468,5 @@ body {
 
 .restart-btn:hover {
     background: var(--text-main);
-    color: #000;
+    color: var(--bg-color);
 }

@@ -1,4 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Theme logic
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const favicon = document.getElementById('favicon');
+
+    // We already checked and set the class in the head, but we can bind the toggle here
+    themeToggleBtn.addEventListener('click', () => {
+        const root = document.documentElement;
+        if (root.classList.contains('light-theme')) {
+            // Switch to Dark Theme
+            root.classList.remove('light-theme');
+            localStorage.setItem('hacker-theme', 'dark');
+            favicon.setAttribute('href', 'themes/dark/icon.png');
+        } else {
+            // Switch to Light Theme
+            root.classList.add('light-theme');
+            localStorage.setItem('hacker-theme', 'light');
+            favicon.setAttribute('href', 'themes/light/icon.png');
+        }
+    });
+
     // Screens
     const startScreen = document.getElementById('start-screen');
     const gameInterface = document.getElementById('game-interface');
@@ -96,10 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         else if (mode === 'roulette') {
-            // Totally random length between 4 and 10
             length = Math.floor(Math.random() * 7) + 4;
 
-            // Randomly pick a character set
             const types = [
                 { pool: 'abcdefghijklmnopqrstuvwxyz', name: 'a-z' },
                 { pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', name: 'a-zA-Z' },
@@ -107,14 +125,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 { pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=', name: 'ALL' }
             ];
 
-            // To make sure level 1 roulette isn't impossible immediately, slight scaling
             let typeIndex;
             if (level < 5) {
-                typeIndex = Math.floor(Math.random() * 2); // only lower, or lower+upper
+                typeIndex = Math.floor(Math.random() * 2);
             } else if (level < 15) {
-                typeIndex = Math.floor(Math.random() * 3); // no specials yet
+                typeIndex = Math.floor(Math.random() * 3);
             } else {
-                typeIndex = Math.floor(Math.random() * 4); // anything goes
+                typeIndex = Math.floor(Math.random() * 4);
             }
 
             const selectedType = types[typeIndex];
@@ -219,6 +236,5 @@ document.addEventListener('DOMContentLoaded', () => {
         startLevel(currentLevel);
     });
 
-    // Make sure we show the start screen by default
     showStartScreen();
 });
