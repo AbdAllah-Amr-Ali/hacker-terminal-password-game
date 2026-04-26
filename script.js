@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Theme logic
     const themeToggleBtn = document.getElementById('theme-toggle');
     const favicon = document.getElementById('favicon');
+    const siteLogo = document.getElementById('site-logo');
 
     // We already checked and set the class in the head, but we can bind the toggle here
     themeToggleBtn.addEventListener('click', () => {
@@ -10,12 +11,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Switch to Dark Theme
             root.classList.remove('light-theme');
             localStorage.setItem('hacker-theme', 'dark');
-            favicon.setAttribute('href', 'themes/dark/icon.png');
+            favicon.setAttribute('href', 'themes/dark/icon.ico');
+            siteLogo.setAttribute('src', 'themes/dark/icon.png');
         } else {
             // Switch to Light Theme
             root.classList.add('light-theme');
             localStorage.setItem('hacker-theme', 'light');
-            favicon.setAttribute('href', 'themes/light/icon.png');
+            favicon.setAttribute('href', 'themes/light/icon.ico');
+            siteLogo.setAttribute('src', 'themes/light/icon.png');
         }
     });
 

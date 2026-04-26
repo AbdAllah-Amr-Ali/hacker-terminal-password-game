@@ -470,3 +470,15 @@ html.light-theme .circle.green::after {
     background: var(--text-main);
     color: var(--bg-color);
 }
+
+/* Site Logo */
+.site-logo {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 60px;
+    height: 60px;
+    z-index: 1000;
+    transition: filter 0.5s ease;
+    filter: drop-shadow(0 0 10px var(--border-color));
+}

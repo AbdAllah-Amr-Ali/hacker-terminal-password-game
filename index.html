@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hacker Terminal - Password Game</title>
-    <link id="favicon" rel="icon" href="themes/dark/icon.png" type="image/png">
+    <link id="favicon" rel="icon" href="themes/dark/icon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <!-- Inline script to prevent theme flash before load -->
@@ -13,12 +13,20 @@
         const savedTheme = localStorage.getItem('hacker-theme') || 'dark';
         if (savedTheme === 'light') {
             document.documentElement.classList.add('light-theme');
-            document.getElementById('favicon').setAttribute('href', 'themes/light/icon.png');
+            document.getElementById('favicon').setAttribute('href', 'themes/light/icon.ico');
         }
     </script>
 </head>
 
 <body>
+    <!-- Site Logo -->
+    <img id="site-logo" src="themes/dark/icon.png" alt="Site Logo" class="site-logo">
+    <script>
+        if (localStorage.getItem('hacker-theme') === 'light') {
+            document.getElementById('site-logo').setAttribute('src', 'themes/light/icon.png');
+        }
+    </script>
+
     <!-- Theme Toggle Button -->
     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
         <!-- SVG toggles handled in CSS/JS -->
