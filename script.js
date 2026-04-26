@@ -11,13 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // Switch to Dark Theme
             root.classList.remove('light-theme');
             localStorage.setItem('hacker-theme', 'dark');
-            favicon.setAttribute('href', 'themes/dark/icon.ico');
+            favicon.setAttribute('href', 'themes/dark/icon.png');
             siteLogo.setAttribute('src', 'themes/dark/icon.png');
         } else {
             // Switch to Light Theme
             root.classList.add('light-theme');
             localStorage.setItem('hacker-theme', 'light');
-            favicon.setAttribute('href', 'themes/light/icon.ico');
+            favicon.setAttribute('href', 'themes/light/icon.png');
             siteLogo.setAttribute('src', 'themes/light/icon.png');
         }
     });
