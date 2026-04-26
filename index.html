@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker Terminal - Password Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="grid-background"></div>
+    <div class="scanlines"></div>
+
+    <div class="container">
+        <div class="card">
+
+            <!-- START SCREEN -->
+            <div id="start-screen" class="screen-view">
+                <div class="title-section">
+                    <h1>SYSTEM.BREACH()</h1>
+                    <p>> Select infiltration protocols</p>
+                </div>
+
+                <div class="mode-options">
+                    <button class="mode-btn" id="mode-campaign">
+                        <div class="mode-title">1. CAMPAIGN</div>
+                        <div class="mode-desc">Standard progression. Linear difficulty scaling across 100 levels.</div>
+                    </button>
+
+                    <button class="mode-btn" id="mode-roulette">
+                        <div class="mode-title">2. ROULETTE (CHAOS)</div>
+                        <div class="mode-desc">Unique levels every time. Randomized target length and character sets.
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- GAME INTERFACE -->
+            <div id="game-interface" class="screen-view hidden">
+                <div class="game-header">
+                    <div class="level-badge">
+                        LEVEL <span id="current-level">1</span><span class="max-level"
+                            id="max-level-indicator">/100</span>
+                    </div>
+                    <div class="stats">
+                        <div class="stat-box">
+                            <span class="label">LENGTH</span>
+                            <span id="target-length" class="value">0</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="label">CHARSET</span>
+                            <span id="charset-info" class="value">a-z</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="terminal-text" id="terminal-boot-text">
+                    <p>SYSTEM.OVERRIDE_ENABLED</p>
+                    <p>> Awaiting decryption sequence...</p>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" id="password" placeholder="[ ENTER SEQUENCE ]" autocomplete="off"
+                        spellcheck="false" maxlength="15">
+                </div>
+
+                <div class="feedback-section">
+                    <div class="feedback-circles" id="feedback-circles">
+                        <!-- Dynamic rendering by JS based on length -->
+                    </div>
+
+                    <button type="button" class="submit-arrow action-btn hidden" id="next-level-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </div>
+
+                <div id="success-message" class="success-message hidden">
+                    > ACCESS GRANTED. OVERRIDE SUCCESSFUL.
+                </div>
+            </div>
+
+            <!-- GAME COMPLETE SCREEN -->
+            <div id="game-complete" class="screen-view hidden">
+                <h1>SYSTEM MASTERED</h1>
+                <p>You have cracked the terminal protocols.</p>
+                <button id="restart-btn" class="restart-btn">REBOOT SYSTEM</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
